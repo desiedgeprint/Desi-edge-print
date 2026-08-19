@@ -14,6 +14,6 @@ window.STORE_DATA = {
     { name: "Photo Bottle", price: 349, desc: "Custom bottle with your family, couple or favourite photo.", imgs: ["image05.jpg", "image06.jpg"] },
     { name: "Photo Keychain", price: 149, desc: "Personalised keychain with your photo, name or custom design.", imgs: ["image07.jpg", "image08.jpg"] },
     { name: "Photo Pillow", price: 399, desc: "Print your photo on a soft personalised pillow.", imgs: ["image09.jpg", "image10.jpg"] },
-    { name: "Custom T-Shirt", price: 99, desc: "Photo, logo, name and custom print.", imgs: [] }
+    { name: "Custom T-Shirt", price: 99, desc: "Photo, logo, name and custom print.", imgs: ["Image 12.jpeg", "Image 11.jpeg"] },
   ]
 };
