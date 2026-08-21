@@ -1,25 +1,114 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Desi Edge Print</title><link rel="stylesheet" href="style.css"></head>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Desi Edge Print — Custom Gifts & Prints</title>
+<meta name="description" content="Desi Edge Print custom mugs, T-shirts, keychains, bottles and pillows.">
+<link rel="stylesheet" href="style.css">
+</head>
 <body>
-<header><div class="logo">DESI EDGE <span>PRINT</span></div><nav><a href="#home">HOME</a><a href="#shop">SHOP</a><a href="#about">ABOUT</a><a href="#contact">CONTACT</a><button onclick="openCart()">CART <b id="count">0</b></button><button class="admin" onclick="openAdmin()">ADMIN</button></nav></header>
+<header class="header">
+  <a class="brand" href="#home">DESI EDGE <span>PRINT</span></a>
+  <nav>
+    <a href="#home">HOME</a><a href="#shop">SHOP</a><a href="#about">ABOUT</a><a href="#contact">CONTACT</a>
+    <button class="navbtn" onclick="openCart()">CART <b id="cartCount">0</b></button>
+    <button class="adminbtn" onclick="openAdmin()">ADMIN</button>
+  </nav>
+</header>
 
-<section class="hero" id="home"><div><small>CUSTOM PRINTS • ONLINE STORE</small><h1>YOUR STYLE.<br><i>YOUR PRINT.</i><br>YOUR WAY.</h1><p>Premium custom printing for gifts, brands and everyday moments.</p><a class="gold" href="#shop">SHOP NOW</a></div>
-<div class="visual"><div class="real mug"></div><div class="real shirt"></div><div class="real bottle"></div></div></section>
+<section class="hero" id="home">
+  <div class="heroText">
+    <div class="eyebrow">CUSTOM PRINTS • PERSONALIZED GIFTS</div>
+    <h1>YOUR STYLE.<br><em>YOUR PRINT.</em><br>YOUR WAY.</h1>
+    <p>Make your memories products. Custom bottles, mugs, T-shirts, keychains and pillows.</p>
+    <a class="gold" href="#shop">SHOP NOW</a>
+  </div>
+  <div class="heroProducts">
+    <img src="assets/bottles.jpg" alt="Custom printed bottles">
+    <img src="assets/tshirt.jpg" alt="Custom printed T-shirt">
+    <img src="assets/magic-mug.jpg" alt="Custom printed mug">
+  </div>
+</section>
 
-<section id="shop" class="shop"><small>OUR COLLECTION</small><h2>SHOP BY CATEGORY</h2><div id="cats" class="cats"></div><div id="products" class="products"></div></section>
+<section class="categoryBar">
+  <button onclick="showAll()">ALL</button>
+  <button onclick="filterProducts('Mugs')">MUGS</button>
+  <button onclick="filterProducts('T-Shirts')">T-SHIRTS</button>
+  <button onclick="filterProducts('Keychains')">KEYCHAINS</button>
+  <button onclick="filterProducts('Bottles')">BOTTLES</button>
+  <button onclick="filterProducts('Pillows')">PILLOWS</button>
+  <button onclick="filterProducts('Magic Cups')">MAGIC CUPS</button>
+</section>
 
-<section id="about" class="features"><div><b>✦</b><h3>PREMIUM QUALITY</h3><p>Quality materials and sharp prints.</p></div><div><b>✓</b><h3>VIBRANT PRINTS</h3><p>Made to stand out.</p></div><div><b>▣</b><h3>SECURE PACKAGING</h3><p>Carefully packed orders.</p></div><div><b>↗</b><h3>FAST DELIVERY</h3><p>Reliable shipping.</p></div></section>
+<section class="shop" id="shop">
+  <div class="eyebrow">OUR COLLECTION</div>
+  <h2>Shop your favorites</h2>
+  <div id="products" class="products"></div>
+</section>
 
-<section id="contact" class="contact"><div><small>BUILD YOUR BRAND</small><h2>PRINT YOUR IDEAS.</h2><p>Instagram: <strong>@desi_edge_print</strong><br>Mobile: <strong>6386953268</strong></p></div><a class="gold" href="tel:6386953268">CALL NOW</a></section>
-<footer>© 2026 Desi Edge Print • Instagram @desi_edge_print • 6386953268</footer>
+<section class="why" id="about">
+  <div><strong>✦</strong><h3>PREMIUM QUALITY</h3><p>Sharp, vibrant custom printing.</p></div>
+  <div><strong>✓</strong><h3>PERSONALIZED</h3><p>Add your own photo or design.</p></div>
+  <div><strong>▣</strong><h3>SAFE PACKAGING</h3><p>Orders packed carefully.</p></div>
+  <div><strong>↗</strong><h3>DELIVERY</h3><p>We ship your order to your address.</p></div>
+</section>
 
-<div id="cart" class="overlay"><div class="panel"><button class="x" onclick="closeCart()">×</button><h2>Your Cart</h2><div id="items"></div>
-<div class="checkout"><h3>Delivery Details</h3><input id="name" placeholder="Full Name"><input id="phone" placeholder="Mobile Number"><textarea id="address" placeholder="Full Address"></textarea><div class="two"><input id="city" placeholder="City"><input id="pin" placeholder="PIN Code"></div><select id="payment"><option>Cash on Delivery</option><option>UPI / Online Payment</option></select></div>
-<h3>Total: ₹<span id="total">0</span></h3><button class="gold full" onclick="placeOrder()">PLACE ORDER</button></div></div>
+<section class="contact" id="contact">
+  <div><div class="eyebrow">DESI EDGE PRINT</div><h2>PRINT YOUR IDEAS.</h2>
+  <p>Instagram: <b>@desi_edge_print</b><br>Mobile / WhatsApp: <b>6386953268</b></p></div>
+  <a class="gold" href="https://instagram.com/desi_edge_print" target="_blank">INSTAGRAM</a>
+</section>
 
-<div id="admin" class="overlay"><div class="panel"><button class="x" onclick="closeAdmin()">×</button><div id="login"><small>PRIVATE ADMIN</small><h2>Store Login</h2><input id="pass" type="password" placeholder="Password"><button class="gold full" onclick="login()">LOGIN</button><p class="muted">Prototype password: desiedge</p></div>
-<div id="dashboard" class="hidden"><h2>Store Admin</h2><div class="tabs"><button onclick="tab('products')">PRODUCTS</button><button onclick="tab('orders')">ORDERS</button></div>
-<div id="productsTab"><h3>Add / Edit Product</h3><input id="pn" placeholder="Product name"><select id="pc"></select><input id="pp" type="number" placeholder="Price ₹"><input id="pd" placeholder="Description"><input id="pi" type="file" accept="image/*"><input id="pu" placeholder="Or image URL"><button class="gold full" onclick="saveProduct()">SAVE PRODUCT</button><hr><div id="adminList"></div></div>
-<div id="ordersTab" class="hidden"><h3>Customer Orders</h3><div id="orders"></div></div></div></div></div>
-<script src="script.js"></script></body></html>
+<footer>© 2026 Desi Edge Print • @desi_edge_print • 6386953268</footer>
+
+<!-- CART / CHECKOUT -->
+<div id="cartOverlay" class="overlay">
+ <div class="drawer">
+  <button class="close" onclick="closeCart()">×</button>
+  <h2>Your Cart</h2><div id="cartItems"></div>
+  <div class="checkout">
+   <h3>Delivery Details</h3>
+   <input id="customerName" placeholder="Full Name">
+   <input id="customerPhone" placeholder="Mobile Number" inputmode="tel">
+   <textarea id="customerAddress" placeholder="Full Address"></textarea>
+   <div class="two"><input id="customerCity" placeholder="City"><input id="customerPin" placeholder="PIN Code" inputmode="numeric"></div>
+   <select id="payment"><option>Cash on Delivery</option><option>UPI / Online Payment</option></select>
+  </div>
+  <div class="grand">Total: ₹<span id="cartTotal">0</span></div>
+  <button class="gold wide" onclick="placeOrder()">PLACE ORDER</button>
+  <button class="whatsapp wide" onclick="orderOnWhatsApp()">ORDER ON WHATSAPP</button>
+ </div>
+</div>
+
+<!-- ADMIN -->
+<div id="adminOverlay" class="overlay">
+ <div class="drawer adminDrawer">
+  <button class="close" onclick="closeAdmin()">×</button>
+  <div id="adminLogin">
+   <div class="eyebrow">PRIVATE AREA</div><h2>Admin Login</h2>
+   <input id="adminPassword" type="password" placeholder="Admin Password">
+   <button class="gold wide" onclick="adminLogin()">LOGIN</button>
+   <p class="muted">Demo password: <b>desiedge</b></p>
+  </div>
+  <div id="adminPanel" class="hidden">
+   <h2>Store Admin</h2>
+   <div class="tabs"><button onclick="adminTab('products')">PRODUCTS</button><button onclick="adminTab('orders')">ORDERS</button></div>
+   <div id="productAdmin">
+    <h3>Add Product</h3>
+    <input id="pName" placeholder="Product name">
+    <select id="pCategory"><option>Mugs</option><option>T-Shirts</option><option>Keychains</option><option>Bottles</option><option>Pillows</option><option>Magic Cups</option></select>
+    <input id="pPrice" type="number" placeholder="Price ₹">
+    <input id="pDescription" placeholder="Description">
+    <input id="pImage" type="file" accept="image/*">
+    <button class="gold wide" onclick="addProduct()">ADD PRODUCT</button>
+    <hr><div id="adminProducts"></div>
+   </div>
+   <div id="orderAdmin" class="hidden"><h3>Customer Orders</h3><div id="adminOrders"></div></div>
+  </div>
+ </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

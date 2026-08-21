@@ -1,28 +1,76 @@
-const cats=["Mugs","T-Shirts","Keychains","Bottles","Pillows","Magic Cups"];
-let products=JSON.parse(localStorage.getItem("dep_products")||"null")||[
-{name:"Classic Custom Mug",cat:"Mugs",price:249,desc:"Personalized ceramic mug.",image:"https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?auto=format&fit=crop&w=700&q=85"},
-{name:"Premium Printed T-Shirt",cat:"T-Shirts",price:499,desc:"Custom printed T-shirt.",image:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=700&q=85"},
-{name:"Custom Keychain",cat:"Keychains",price:149,desc:"Personalized keychain.",image:"https://images.unsplash.com/photo-1604328471151-b52226907017?auto=format&fit=crop&w=700&q=85"},
-{name:"Printed Bottle",cat:"Bottles",price:349,desc:"Reusable custom bottle.",image:"https://images.unsplash.com/photo-1602143407151-7111542de6e8?auto=format&fit=crop&w=700&q=85"},
-{name:"Custom Pillow",cat:"Pillows",price:399,desc:"Soft custom pillow.",image:"https://images.unsplash.com/photo-1584100936595-c0654b55a2e2?auto=format&fit=crop&w=700&q=85"},
-{name:"Magic Cup",cat:"Magic Cups",price:449,desc:"Heat reveal custom cup.",image:"https://images.unsplash.com/photo-1577937927133-66ef06acdf18?auto=format&fit=crop&w=700&q=85"}];
+const PRODUCTS_KEY="dep_products_v2", ORDERS_KEY="dep_orders_v2";
+const defaultProducts=[
+{name:"Personalized Bottle",cat:"Bottles",price:349,desc:"Photo printed bottles.",image:"assets/bottles.jpg"},
+{name:"Heart Photo Pillow",cat:"Pillows",price:499,desc:"Custom heart photo pillow.",image:"assets/heart-pillow.jpg"},
+{name:"Photo Keychains",cat:"Keychains",price:149,desc:"Personalized photo keychains.",image:"assets/keychains.jpg"},
+{name:"Custom Photo T-Shirt",cat:"T-Shirts",price:499,desc:"Your design on a T-shirt.",image:"assets/tshirt.jpg"},
+{name:"Birthday Photo Mug",cat:"Mugs",price:249,desc:"Birthday photo printed mug.",image:"assets/birthday-mugs.jpg"},
+{name:"Magic Photo Mug",cat:"Magic Cups",price:449,desc:"Custom reveal magic mug.",image:"assets/magic-mug.jpg"}];
+let products=JSON.parse(localStorage.getItem(PRODUCTS_KEY)||"null")||defaultProducts;
 let cart=[];
+const $=id=>document.getElementById(id);
 
-function renderCats(){catsDiv.innerHTML=cats.map(c=>`<button onclick="filterCat('${c}')"><img src="${products.find(p=>p.cat===c)?.image||''}"><span>${c.toUpperCase()}</span></button>`).join("");pc.innerHTML=cats.map(c=>`<option>${c}</option>`).join("")}
-function renderProducts(list=products){document.getElementById("products").innerHTML=list.map((p,i)=>`<article class="card"><img src="${p.image}" alt=""><div class="info"><h3>${p.name}</h3><p>${p.desc}</p><div class="price">₹${p.price}</div><button class="add" onclick="add(${i})">ADD TO CART</button></div></article>`).join("")}
-function filterCat(c){renderProducts(products.filter(p=>p.cat===c))}
-function add(i){cart.push(products[i]);update();openCart()}
-function update(){count.textContent=cart.length;items.innerHTML=cart.length?cart.map((p,i)=>`<div class="order"><b>${p.name}</b> — ₹${p.price}<button onclick="removeItem(${i})">×</button></div>`).join(""):"<p class='muted'>Cart is empty.</p>";total.textContent=cart.reduce((s,p)=>s+p.price,0)}
-function removeItem(i){cart.splice(i,1);update()}
-function openCart(){cart.style.display="flex"} function closeCart(){cartOverlay.style.display="none";document.getElementById("cart").style.display="none"}
-function placeOrder(){if(!cart.length)return alert("Cart is empty");let data={id:"DEP"+Date.now().toString().slice(-7),name:name.value,phone:phone.value,address:address.value,city:city.value,pin:pin.value,payment:payment.value,items:cart.map(p=>p.name),total:cart.reduce((s,p)=>s+p.price,0),date:new Date().toLocaleString()};if(!data.name||!data.phone||!data.address||!data.city||!data.pin)return alert("Please fill all delivery details");let os=JSON.parse(localStorage.getItem("dep_orders")||"[]");os.unshift(data);localStorage.setItem("dep_orders",JSON.stringify(os));cart=[];update();alert("Order placed! Order ID: "+data.id);closeCart()}
-function openAdmin(){admin.style.display="flex"} function closeAdmin(){admin.style.display="none"}
-function login(){if(pass.value==="desiedge"){loginBox();}else alert("Wrong password")}
-function loginBox(){document.getElementById("login").classList.add("hidden");dashboard.classList.remove("hidden");renderAdmin()}
-function tab(t){productsTab.classList.toggle("hidden",t!=="products");ordersTab.classList.toggle("hidden",t!=="orders");if(t==="orders")renderOrders()}
-function saveProduct(){let file=pi.files[0], finish=img=>{products.push({name:pn.value,cat:pc.value,price:Number(pp.value),desc:pd.value,image:img||pu.value});localStorage.setItem("dep_products",JSON.stringify(products));renderCats();renderProducts();renderAdmin();alert("Product saved")};if(file){let r=new FileReader();r.onload=()=>finish(r.result);r.readAsDataURL(file)}else finish("")}
-function renderAdmin(){adminList.innerHTML=products.map((p,i)=>`<div class="adminItem"><img src="${p.image}"><div class="grow"><b>${p.name}</b><br>₹${p.price}</div><button onclick="del(${i})">DELETE</button></div>`).join("")}
-function del(i){products.splice(i,1);localStorage.setItem("dep_products",JSON.stringify(products));renderCats();renderProducts();renderAdmin()}
-function renderOrders(){let os=JSON.parse(localStorage.getItem("dep_orders")||"[]");orders.innerHTML=os.length?os.map(o=>`<div class="order"><b>Order ${o.id}</b><br>${o.name} • ${o.phone}<br>${o.address}, ${o.city} - ${o.pin}<br>${o.items.join(", ")}<br><b>Total ₹${o.total}</b><br><small>${o.date} • ${o.payment}</small></div>`).join(""):"<p class='muted'>No orders yet.</p>"}
+function renderProducts(list=products){
+ $("products").innerHTML=list.map((p,i)=>`<article class="card"><img src="${p.image}" alt="${p.name}"><div class="cardBody"><h3>${p.name}</h3><p>${p.desc}</p><div class="price">₹${p.price}</div><button class="add" onclick="addToCart(${i})">ADD TO CART</button></div></article>`).join("");
+}
+function showAll(){renderProducts()}
+function filterProducts(cat){renderProducts(products.filter(p=>p.cat===cat))}
+function addToCart(i){cart.push(products[i]);renderCart();$("cartOverlay").style.display="flex"}
+function removeCart(i){cart.splice(i,1);renderCart()}
+function renderCart(){
+ $("cartCount").textContent=cart.length;
+ $("cartItems").innerHTML=cart.length?cart.map((p,i)=>`<div class="cartLine"><b>${p.name}</b> — ₹${p.price}<button onclick="removeCart(${i})">REMOVE</button></div>`).join(""):"<p class='muted'>Your cart is empty.</p>";
+ $("cartTotal").textContent=cart.reduce((s,p)=>s+Number(p.price),0);
+}
+function openCart(){ $("cartOverlay").style.display="flex"; renderCart() }
+function closeCart(){ $("cartOverlay").style.display="none" }
 
-const catsDiv=document.getElementById("cats");renderCats();renderProducts();update();
+function collectOrder(){
+ const o={name:$("customerName").value.trim(),phone:$("customerPhone").value.trim(),address:$("customerAddress").value.trim(),city:$("customerCity").value.trim(),pin:$("customerPin").value.trim(),payment:$("payment").value};
+ if(!o.name||!o.phone||!o.address||!o.city||!o.pin){alert("Please fill Name, Mobile, Address, City and PIN Code.");return null}
+ o.items=cart.map(p=>({name:p.name,price:p.price}));o.total=cart.reduce((s,p)=>s+Number(p.price),0);
+ o.id="DEP"+Date.now().toString().slice(-8);o.date=new Date().toLocaleString();o.status="Pending";return o;
+}
+function placeOrder(){
+ if(!cart.length)return alert("Cart is empty.");
+ const o=collectOrder();if(!o)return;
+ const orders=JSON.parse(localStorage.getItem(ORDERS_KEY)||"[]");orders.unshift(o);localStorage.setItem(ORDERS_KEY,JSON.stringify(orders));
+ cart=[];renderCart();clearCheckout();alert("Order placed successfully! Your Order ID is "+o.id);closeCart();
+}
+function clearCheckout(){["customerName","customerPhone","customerAddress","customerCity","customerPin"].forEach(id=>$(id).value="")}
+function orderOnWhatsApp(){
+ if(!cart.length)return alert("Cart is empty.");
+ const o=collectOrder();if(!o)return;
+ const lines=o.items.map(x=>x.name+" - ₹"+x.price).join("%0A");
+ const text=`Hello Desi Edge Print,%0AOrder: ${o.id}%0AName: ${encodeURIComponent(o.name)}%0AMobile: ${encodeURIComponent(o.phone)}%0AAddress: ${encodeURIComponent(o.address)}%0ACity: ${encodeURIComponent(o.city)}%0APIN: ${encodeURIComponent(o.pin)}%0APayment: ${encodeURIComponent(o.payment)}%0AItems:%0A${lines}%0ATotal: ₹${o.total}`;
+ window.open("https://wa.me/916386953268?text="+text,"_blank");
+}
+
+function openAdmin(){ $("adminOverlay").style.display="flex" }
+function closeAdmin(){ $("adminOverlay").style.display="none" }
+function adminLogin(){
+ if($("adminPassword").value==="desiedge"){
+  $("adminLogin").classList.add("hidden");$("adminPanel").classList.remove("hidden");renderAdminProducts();
+ }else alert("Wrong admin password.");
+}
+function adminTab(tab){
+ $("productAdmin").classList.toggle("hidden",tab!=="products");
+ $("orderAdmin").classList.toggle("hidden",tab!=="orders");
+ if(tab==="orders")renderAdminOrders();
+}
+function addProduct(){
+ const name=$("pName").value.trim(),cat=$("pCategory").value,price=Number($("pPrice").value),desc=$("pDescription").value.trim(),file=$("pImage").files[0];
+ if(!name||!price)return alert("Enter product name and price.");
+ const save=image=>{products.push({name,cat,price,desc:desc||"Custom printed product.",image:image||"assets/bottles.jpg"});localStorage.setItem(PRODUCTS_KEY,JSON.stringify(products));renderProducts();renderAdminProducts();$("pName").value="";$("pPrice").value="";$("pDescription").value="";$("pImage").value="";alert("Product added.");};
+ if(file){const r=new FileReader();r.onload=()=>save(r.result);r.readAsDataURL(file)}else save("");
+}
+function deleteProduct(i){if(!confirm("Delete this product?"))return;products.splice(i,1);localStorage.setItem(PRODUCTS_KEY,JSON.stringify(products));renderProducts();renderAdminProducts()}
+function renderAdminProducts(){
+ $("adminProducts").innerHTML=products.map((p,i)=>`<div class="adminProduct"><img src="${p.image}"><div class="grow"><b>${p.name}</b><br>₹${p.price} • ${p.cat}</div><button class="danger" onclick="deleteProduct(${i})">DELETE</button></div>`).join("");
+}
+function renderAdminOrders(){
+ const orders=JSON.parse(localStorage.getItem(ORDERS_KEY)||"[]");
+ $("adminOrders").innerHTML=orders.length?orders.map((o,i)=>`<div class="orderCard"><b>Order ${o.id}</b><br><span class="muted">${o.date}</span><p><b>${o.name}</b> • ${o.phone}</p><p>${o.address}, ${o.city} - ${o.pin}</p><p>${o.items.map(x=>x.name+" — ₹"+x.price).join("<br>")}<br><b>Total ₹${o.total}</b></p><p>Payment: ${o.payment} • Status: ${o.status}</p><button class="gold" onclick="completeOrder(${i})">MARK COMPLETED</button></div>`).join(""):"<p class='muted'>No orders yet.</p>";
+}
+function completeOrder(i){const o=JSON.parse(localStorage.getItem(ORDERS_KEY)||"[]");o[i].status="Completed";localStorage.setItem(ORDERS_KEY,JSON.stringify(o));renderAdminOrders()}
+renderProducts();renderCart();
