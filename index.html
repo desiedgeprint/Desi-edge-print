@@ -1,75 +1,38 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Desi Edge Print | Custom E-Commerce Printing</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Desi Edge Print | Personalised Printing</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header class="header">
-    <div class="logo">DESI EDGE <span>PRINT</span></div>
-    <button class="menu" onclick="toggleMenu()">☰</button>
-    <nav id="nav">
-      <a href="#home">HOME</a><a href="#shop">SHOP</a><a href="#about">ABOUT</a>
-      <a href="#contact">CONTACT</a><button class="cart" onclick="openCart()">🛒 <b id="cartCount">0</b></button>
-    </nav>
-  </header>
+<div class="top"><div class="container"><span>✨ Personalised Photo Printing</span><span>Jasauli, Jalalabad • District Ghazipur</span></div></div>
+<nav><div class="container nav"><a class="logo" href="#">DESI <span>EDGE</span> PRINT</a><div class="links"><a href="#products">Products</a><a href="#why">Why Us</a><a href="#order">Order</a><a href="#contact">Contact</a></div><a class="btn sm" href="#order">Order Now</a></div></nav>
 
-  <main id="home">
-    <section class="hero">
-      <div class="heroText">
-        <p class="eyebrow">CUSTOM PRINTS • ONLINE STORE</p>
-        <h1>YOUR STYLE.<br><span>YOUR PRINT.</span><br>YOUR WAY.</h1>
-        <p class="sub">Turn your ideas into premium custom products.</p>
-        <a class="btn" href="#shop">SHOP NOW</a>
-      </div>
-      <div class="heroProducts">
-        <div class="mock mug">☕<small>MUG</small></div>
-        <div class="mock tshirt">👕<small>T-SHIRT</small></div>
-        <div class="mock bottle">🥤<small>BOTTLE</small></div>
-      </div>
-    </section>
+<section class="hero"><div class="container heroGrid"><div>
+<span class="tag">📸 PHOTO PRINTING & PERSONALISED GIFTS</span>
+<h1>Make your photo <span class="grad">extra special.</span></h1>
+<p>Mug, Magic Mug, Bottle, Keychain, Pillow, T-Shirt और दूसरे products पर अपना photo, name या design print करवाएँ.</p>
+<div class="actions"><a class="btn" href="#products">View Products</a><a class="btn dark" href="#order">Custom Order</a></div>
+</div><div class="heroVisual"><img src="image01.jpg"><div class="heroLabel">Your Photo • Your Product • Your Style</div></div></div></section>
 
-    <section class="categories" id="shop">
-      <h2>SHOP BY CATEGORY</h2>
-      <div class="catGrid">
-        <button onclick="filterProducts('Mugs')">☕<span>MUGS</span></button>
-        <button onclick="filterProducts('T-Shirts')">👕<span>T-SHIRTS</span></button>
-        <button onclick="filterProducts('Keychains')">🔑<span>KEYCHAINS</span></button>
-        <button onclick="filterProducts('Bottles')">🥤<span>BOTTLES</span></button>
-        <button onclick="filterProducts('Pillows')">🛏️<span>PILLOWS</span></button>
-        <button onclick="filterProducts('Magic Cups')">☕<span>MAGIC CUPS</span></button>
-      </div>
-    </section>
+<section id="products"><div class="container"><div class="head"><div><h2>Our Collection</h2><p>View sample photos for every product</p></div><a class="btn dark sm" href="#order">Place Your Order →</a></div><div class="products" id="productList"></div></div></section>
 
-    <section class="products">
-      <div class="sectionTitle"><h2>FEATURED PRODUCTS</h2><button onclick="filterProducts('all')">VIEW ALL</button></div>
-      <div class="productGrid" id="productGrid"></div>
-    </section>
+<section id="why"><div class="container"><div class="head"><div><h2>आपके लिए क्या खास है?</h2><p>Simple ordering और personalised printing.</p></div></div><div class="why"><div class="box">🎨 <b>Your Photo</b><p>Send your favourite photo, name, logo or design.</p></div><div class="box">🛍️ <b>Your Choice of Product</b><p>Choose a product and select your quantity.</p></div><div class="box">💬 <b>WhatsApp Order</b><p>Enter your full address and send the order directly on WhatsApp.</p></div></div></div></section>
 
-    <section class="features" id="about">
-      <div><b>✦</b><h3>PREMIUM QUALITY</h3><p>Made for everyday use.</p></div>
-      <div><b>✓</b><h3>VIBRANT PRINTS</h3><p>Sharp custom designs.</p></div>
-      <div><b>🔒</b><h3>SECURE PACKAGING</h3><p>Carefully packed orders.</p></div>
-      <div><b>🚚</b><h3>FAST DELIVERY</h3><p>Safe and reliable shipping.</p></div>
-    </section>
+<section id="order"><div class="container order"><div class="orderIntro"><h2>Ordering is easy.</h2><p>Product → Quantity → Name → Mobile → Address → WhatsApp.</p><p>📱 6386953268</p><p>Final price and availability will be confirmed on WhatsApp.</p></div><div class="form"><h2 style="margin-top:0">Order Details</h2><div class="grid">
+<div><label>Product *</label><select id="sel"></select></div><div><label>Quantity *</label><input id="qty" type="number" min="1" value="1"></div>
+<div><label>Name *</label><input id="name" placeholder="Your name"></div><div><label>Mobile *</label><input id="mobile" placeholder="10 digit mobile" inputmode="numeric"></div>
+<div class="full"><label>Full Address *</label><textarea id="address" placeholder="House/Village, Post, District, State, PIN"></textarea></div>
+<div class="full"><label>Photo / Design / Size / Colour</label><textarea id="note" placeholder="Tell us your requirements"></textarea></div>
+</div><div class="total"><span>Estimated Total</span><span id="total">₹0</span></div><button class="btn" style="width:100%" onclick="sendOrder()">Send Order on WhatsApp 💬</button></div></div></section>
 
-    <section class="cta" id="contact">
-      <h2>PRINT YOUR IDEAS.</h2>
-      <p>Build your brand with Desi Edge Print.</p>
-      <a class="btn" href="mailto:hello@desiedgeprint.com">CONTACT US</a>
-    </section>
-  </main>
+<section id="contact"><div class="container about"><div class="contact"><h2>Desi Edge Print</h2><p>📞 <a href="tel:6386953268">6386953268</a><br>📧 satyamchauhan8416941838@gmail.com<br>📍 Jasauli, Jalalabad, District Ghazipur</p></div><div class="contact"><h2>Instagram</h2><p><a href="https://instagram.com/desi_edge_print" target="_blank">@desi_edge_print</a></p><a class="btn" href="https://wa.me/916386953268" target="_blank">WhatsApp Chat</a></div></div></section>
 
-  <div class="cartPanel" id="cartPanel">
-    <div class="cartBox">
-      <button class="close" onclick="closeCart()">×</button>
-      <h2>Your Cart</h2><div id="cartItems"></div>
-      <h3>Total: ₹<span id="cartTotal">0</span></h3>
-      <button class="btn full" onclick="checkout()">ORDER NOW</button>
-    </div>
-  </div>
-  <script src="script.js"></script>
-</body>
-</html>
+<section id="adminWrap"><div class="container"><div class="admin"><h2>⚙️ Store Editor</h2><p style="color:#aaa;font-size:12px">Edit any product name, price, description and photos here. You can also add new products.</p><div class="adminGrid"><div><label>Business Name</label><input id="brandEdit"></div><div><label>Hero Text</label><input id="heroEdit"></div></div><div id="adminList"></div><button class="btn dark sm" onclick="addProduct()">+ Add New Product</button> <button class="btn sm" onclick="saveAll()">Save Changes</button></div></div></section>
+
+<footer><div class="container foot"><span>© 2026 Desi Edge Print</span><button class="btn dark sm" onclick="openAdmin()">Admin / Edit</button></div></footer>
+
+<script src="products.js"></script>
+<script src="script.js"></script>
+</body></html>
